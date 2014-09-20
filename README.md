@@ -1,2 +1,0 @@
-notipocket-android
-==================
