@@ -3,6 +3,7 @@ package me.henrytao.notipocket;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,6 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import me.henrytao.widget.NavigationDrawerActivity;
 
@@ -32,6 +38,12 @@ public class MainActivity extends NavigationDrawerActivity {
           .add(R.id.container, new PlaceholderFragment())
           .commit();
     }
+
+    // init navigation drawer list
+    ListView drawerList = (ListView) findViewById(R.id.drawerList);
+    DrawerListAdapter drawerListAdapter = new DrawerListAdapter(this);
+    drawerList.setAdapter(drawerListAdapter);
+    drawerList.setOnItemClickListener(new DrawerItemClickListener());
   }
 
   @Override
@@ -66,6 +78,70 @@ public class MainActivity extends NavigationDrawerActivity {
         Bundle savedInstanceState) {
       View rootView = inflater.inflate(R.layout.fragment_main, container, false);
       return rootView;
+    }
+  }
+
+  /**
+   * DrawerItemClick listener
+   */
+  private class DrawerItemClickListener implements ListView.OnItemClickListener {
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+      onDrawerItemClick(position);
+    }
+  }
+
+  private void onDrawerItemClick(int position) {
+
+  }
+
+
+  /**
+   * Drawer List Adapter
+   */
+
+  public class DrawerListAdapter extends BaseAdapter {
+
+    Context context;
+    String[] items;
+    int[] images = {R.drawable.ic_action_add_to_queue, R.drawable.ic_action_discard, R.drawable.ic_action_help};
+
+    public DrawerListAdapter(Context context) {
+      this.context = context;
+      this.items = this.context.getResources().getStringArray(R.array.main_drawer_list);
+    }
+
+    @Override
+    public int getCount() {
+      return this.items.length;
+    }
+
+    @Override
+    public Object getItem(int position) {
+      return this.items[position];
+    }
+
+    @Override
+    public long getItemId(int position) {
+      return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+      View view = convertView;
+
+      if(view == null){
+        LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.navigation_drawer_item, parent, false);
+      }
+      ImageView image = (ImageView) view.findViewById(R.id.image);
+      TextView title = (TextView) view.findViewById(R.id.title);
+
+      image.setImageResource(this.images[position]);
+      title.setText(this.items[position]);
+
+      return view;
     }
   }
 }

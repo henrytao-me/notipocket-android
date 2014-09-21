@@ -46,14 +46,11 @@
 
   </LinearLayout>
 
-  <include layout="@layout/navigation_drawer_item" ></include>
-  <include layout="@layout/navigation_drawer_item" ></include>
-  <include layout="@layout/navigation_drawer_item" ></include>
-
   <ListView
+    android:id="@+id/drawerList"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" />
 
-  <View style="@style/Divider"/>
+  <View style="@style/Divider" />
 
 </LinearLayout>
