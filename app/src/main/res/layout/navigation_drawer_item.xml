@@ -4,8 +4,8 @@
   android:layout_width="match_parent"
   android:layout_height="56dp"
   android:orientation="horizontal"
-  android:paddingLeft="8dp"
-  android:paddingRight="8dp">
+  android:paddingLeft="@dimen/standard_padding"
+  android:paddingRight="@dimen/standard_padding">
 
   <ImageView
     android:id="@+id/image"
@@ -19,7 +19,7 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:textSize="@dimen/large_text_size"
-    android:paddingLeft="8dp"
+    android:paddingLeft="@dimen/standard_padding"
     android:paddingRight="0dp"
     android:gravity="center_vertical" />
 

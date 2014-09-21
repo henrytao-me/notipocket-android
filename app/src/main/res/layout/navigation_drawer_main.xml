@@ -11,8 +11,8 @@
     android:layout_width="match_parent"
     android:layout_height="72dp"
     android:orientation="horizontal"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
+    android:paddingLeft="@dimen/standard_padding"
+    android:paddingRight="@dimen/standard_padding"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true">
 
@@ -28,7 +28,7 @@
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
-      android:paddingLeft="16dp"
+      android:paddingLeft="@dimen/standard_padding"
       android:paddingRight="0dp">
 
       <TextView
