@@ -1,6 +1,7 @@
 package me.henrytao.notipocket;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,12 +22,16 @@ public class MainActivity extends NavigationDrawerActivity {
 
   private int activePosition = -100;
 
+  private String title = "";
+
+  private DrawerListAdapter drawerListAdapter;
+
   public MainActivity() {
     this.activityLayoutId = R.layout.activity_main;
     this.drawerLayoutId = R.id.main_drawer_layout;
-    this.drawerIcon = R.drawable.ic_drawer;
-    this.drawerOpenString = R.string.main_drawer_open;
-    this.drawerCloseString = R.string.main_drawer_close;
+    this.drawerIconId = R.drawable.ic_drawer;
+    this.drawerOpenStringId = R.string.main_drawer_open;
+    this.drawerCloseStringId = R.string.main_drawer_close;
   }
 
   @Override
@@ -34,9 +39,9 @@ public class MainActivity extends NavigationDrawerActivity {
     super.onCreate(savedInstanceState);
 
     // init navigation drawer list
+    this.drawerListAdapter = new DrawerListAdapter(this);
     ListView drawerList = (ListView) findViewById(R.id.drawerList);
-    DrawerListAdapter drawerListAdapter = new DrawerListAdapter(this);
-    drawerList.setAdapter(drawerListAdapter);
+    drawerList.setAdapter(this.drawerListAdapter);
     drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
     if (savedInstanceState == null) {
@@ -63,6 +68,24 @@ public class MainActivity extends NavigationDrawerActivity {
     return super.onOptionsItemSelected(item);
   }
 
+  @Override
+  public void setTitle(CharSequence title) {
+    this.getActionBar().setTitle(title);
+    super.setTitle(title);
+  }
+
+  @Override
+  protected void onDrawerOpened(View view) {
+    super.onDrawerOpened(view);
+    this.setTitle(this.getString(R.string.app_name));
+  }
+
+  @Override
+  protected void onDrawerClosed(View view) {
+    super.onDrawerClosed(view);
+    this.setTitle(this.drawerListAdapter.getItem(this.activePosition).toString());
+  }
+
   /**
    * DrawerItemClick listener
    */
@@ -79,18 +102,32 @@ public class MainActivity extends NavigationDrawerActivity {
       this.closeDrawer();
       return;
     }
-    this.activePosition = position;
 
     switch (position) {
       case -1:
         break;
       case 0:
-        getFragmentManager().beginTransaction().replace(R.id.container, new MainFragment()).commit();
+        this.activePosition = position;
+        MainFragment mainFragment = new MainFragment();
+        mainFragment.args.putString(MainFragment.ARG_FRAGMENT_NAME, this.drawerListAdapter.getItem(position).toString());
+        getFragmentManager().beginTransaction().replace(R.id.container, mainFragment).commit();
         break;
       case 1:
-        getFragmentManager().beginTransaction().replace(R.id.container, new TrashFragment()).commit();
+        this.activePosition = position;
+        TrashFragment trashFragment = new TrashFragment();
+        trashFragment.args.putString(MainFragment.ARG_FRAGMENT_NAME, this.drawerListAdapter.getItem(position).toString());
+        getFragmentManager().beginTransaction().replace(R.id.container, trashFragment).commit();
+        break;
+      case 2:
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("plain/text");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.contact_to)});
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact_subject));
+        intent.putExtra(Intent.EXTRA_TEXT, "");
+        startActivity(Intent.createChooser(intent, ""));
+        break;
       default:
-        Toast.makeText(this, "Invalid fragment", Toast.LENGTH_SHORT);
+        Toast.makeText(this, "Invalid fragment", Toast.LENGTH_SHORT).show();
         break;
     }
 
@@ -101,7 +138,7 @@ public class MainActivity extends NavigationDrawerActivity {
    * Drawer List Adapter
    */
 
-  public class DrawerListAdapter extends BaseAdapter {
+  private class DrawerListAdapter extends BaseAdapter {
 
     Context context;
 

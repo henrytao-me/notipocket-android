@@ -23,11 +23,11 @@ public class NavigationDrawerActivity extends Activity {
 
   protected int drawerLayoutId;       // need to declare
 
-  protected int drawerIcon;           // need to declare
+  protected int drawerIconId;         // need to declare
 
-  protected int drawerOpenString;     // need to declare
+  protected int drawerOpenStringId;   // need to declare
 
-  protected int drawerCloseString;    // need to declare
+  protected int drawerCloseStringId;  // need to declare
 
   private DrawerLayout drawerLayout;
 
@@ -38,8 +38,22 @@ public class NavigationDrawerActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(this.activityLayoutId);
 
+    final NavigationDrawerActivity obj = this;
     this.drawerLayout = (DrawerLayout) findViewById(this.drawerLayoutId);
-    this.drawerListener = new ActionBarDrawerToggle(this, drawerLayout, this.drawerIcon, this.drawerOpenString, this.drawerCloseString);
+    this.drawerListener = new ActionBarDrawerToggle(this, drawerLayout, this.drawerIconId, this.drawerOpenStringId, this.drawerCloseStringId) {
+      public void onDrawerClosed(View view) {
+        super.onDrawerClosed(view);
+        try {
+          obj.onDrawerClosed(view);
+        }catch(Exception ex){}
+      }
+      public void onDrawerOpened(View view) {
+        super.onDrawerOpened(view);
+        try {
+          obj.onDrawerOpened(view);
+        }catch(Exception ex){}
+      }
+    };
     drawerLayout.setDrawerListener(drawerListener);
 
     getActionBar().setHomeButtonEnabled(true);
@@ -74,6 +88,14 @@ public class NavigationDrawerActivity extends Activity {
 
   protected void closeDrawer(){
     this.drawerLayout.closeDrawers();
+  }
+
+  protected void onDrawerClosed(View view) {
+    // to-do
+  }
+
+  protected void onDrawerOpened(View view) {
+    // to-do
   }
 
 }
