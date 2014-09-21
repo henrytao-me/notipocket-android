@@ -1,13 +1,17 @@
 <resources>
 
-  <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+  <style name="AppTheme" parent="android:Theme.Holo.Light">
     <item name="android:windowContentOverlay">@null</item>
     <item name="android:actionBarStyle">@style/ActionBarStyle</item>
-    <item name="android:actionBarWidgetTheme">@null</item>
+    <item name="android:actionOverflowButtonStyle">@style/ActionOverflowButtonStyle</item>
   </style>
 
   <style name="ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
     <item name="android:background">#ffc107</item>
+  </style>
+  
+  <style name="ActionOverflowButtonStyle" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
+    <item name="android:src">@drawable/ic_action_overflow</item>
   </style>
 
 </resources>
