@@ -1,8 +1,36 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity" >
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
+  xmlns:tools="http://schemas.android.com/tools"
+  tools:context=".MainActivity">
+
+  <!--<item android:id="@+id/action_settings"-->
+  <!--android:title="@string/action_settings"-->
+  <!--android:orderInCategory="100"-->
+  <!--android:showAsAction="never" />-->
+
+  <group android:id="@+id/main_menu"
+    android:visible="true">
+    <item
+      android:icon="@drawable/ic_action_new_white"
+      android:title="@string/action_add"
+      android:showAsAction="always" />
+
+    <item
+      android:icon="@drawable/ic_action_search_white"
+      android:title="@string/action_search"
+      android:showAsAction="always" />
+  </group>
+
+  <group android:id="@+id/trash_menu"
+    android:visible="false">
+    <item
+      android:icon="@drawable/ic_action_undo_white"
+      android:title="@string/action_undo"
+      android:showAsAction="always" />
+
+    <item
+      android:icon="@drawable/ic_action_discard_white"
+      android:title="@string/action_delete"
+      android:showAsAction="always" />
+  </group>
+
 </menu>

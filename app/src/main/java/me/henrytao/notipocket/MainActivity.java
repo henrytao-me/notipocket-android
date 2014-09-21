@@ -58,14 +58,37 @@ public class MainActivity extends NavigationDrawerActivity {
   }
 
   @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    int position = this.activePosition;
+    if (this.isDrawerOpen) {
+      position = -100;
+    }
+    switch (position) {
+      case 0:
+        menu.setGroupVisible(R.id.main_menu, true);
+        menu.setGroupVisible(R.id.trash_menu, false);
+        break;
+      case 1:
+        menu.setGroupVisible(R.id.main_menu, false);
+        menu.setGroupVisible(R.id.trash_menu, true);
+        break;
+      default:
+        menu.setGroupVisible(R.id.main_menu, false);
+        menu.setGroupVisible(R.id.trash_menu, false);
+        break;
+    }
+    return super.onPrepareOptionsMenu(menu);
+  }
+
+  @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     // Handle action bar item clicks here. The action bar will
     // automatically handle clicks on the Home/Up button, so long
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
-    if (id == R.id.action_settings) {
-      return true;
-    }
+    //if (id == R.id.action_settings) {
+    //  return true;
+    //}
     return super.onOptionsItemSelected(item);
   }
 

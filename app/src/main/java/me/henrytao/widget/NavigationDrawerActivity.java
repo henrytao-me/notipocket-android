@@ -33,6 +33,8 @@ public class NavigationDrawerActivity extends Activity {
 
   private ActionBarDrawerToggle drawerListener;
 
+  protected boolean isDrawerOpen = false;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -45,12 +47,14 @@ public class NavigationDrawerActivity extends Activity {
         super.onDrawerClosed(view);
         try {
           obj.onDrawerClosed(view);
+          obj.invalidateOptionsMenu(); // trigger onPrepareOptionsMenu
         }catch(Exception ex){}
       }
       public void onDrawerOpened(View view) {
         super.onDrawerOpened(view);
         try {
           obj.onDrawerOpened(view);
+          obj.invalidateOptionsMenu(); // trigger onPrepareOptionsMenu
         }catch(Exception ex){}
       }
     };
@@ -91,11 +95,11 @@ public class NavigationDrawerActivity extends Activity {
   }
 
   protected void onDrawerClosed(View view) {
-    // to-do
+    this.isDrawerOpen = false;
   }
 
   protected void onDrawerOpened(View view) {
-    // to-do
+    this.isDrawerOpen = true;
   }
 
 }
