@@ -13,20 +13,23 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import me.henrytao.notipocket.R;
 
 public class NavigationDrawerActivity extends Activity {
 
-  protected int activityLayoutId;
+  protected int activityLayoutId;     // need to declare
 
-  protected int drawerLayoutId;
+  protected int drawerLayoutId;       // need to declare
 
-  protected int drawerIcon;
+  protected int drawerIcon;           // need to declare
 
-  protected int drawerOpenString;
+  protected int drawerOpenString;     // need to declare
 
-  protected int drawerCloseString;
+  protected int drawerCloseString;    // need to declare
+
+  private DrawerLayout drawerLayout;
 
   private ActionBarDrawerToggle drawerListener;
 
@@ -35,7 +38,7 @@ public class NavigationDrawerActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(this.activityLayoutId);
 
-    DrawerLayout drawerLayout = (DrawerLayout) findViewById(this.drawerLayoutId);
+    this.drawerLayout = (DrawerLayout) findViewById(this.drawerLayoutId);
     this.drawerListener = new ActionBarDrawerToggle(this, drawerLayout, this.drawerIcon, this.drawerOpenString, this.drawerCloseString);
     drawerLayout.setDrawerListener(drawerListener);
 
@@ -67,6 +70,10 @@ public class NavigationDrawerActivity extends Activity {
   protected void onPostCreate(Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
     this.drawerListener.syncState();
+  }
+
+  protected void closeDrawer(){
+    this.drawerLayout.closeDrawers();
   }
 
 }

@@ -1,8 +1,5 @@
 package me.henrytao.notipocket;
 
-import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,17 +7,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import me.henrytao.widget.NavigationDrawerActivity;
 
 
 public class MainActivity extends NavigationDrawerActivity {
+
+  private int activePosition = -100;
 
   public MainActivity() {
     this.activityLayoutId = R.layout.activity_main;
@@ -33,17 +32,16 @@ public class MainActivity extends NavigationDrawerActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (savedInstanceState == null) {
-      getFragmentManager().beginTransaction()
-          .add(R.id.container, new PlaceholderFragment())
-          .commit();
-    }
 
     // init navigation drawer list
     ListView drawerList = (ListView) findViewById(R.id.drawerList);
     DrawerListAdapter drawerListAdapter = new DrawerListAdapter(this);
     drawerList.setAdapter(drawerListAdapter);
     drawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+    if (savedInstanceState == null) {
+      this.onDrawerItemClick(0);
+    }
   }
 
   @Override
@@ -66,22 +64,6 @@ public class MainActivity extends NavigationDrawerActivity {
   }
 
   /**
-   * A placeholder fragment containing a simple view.
-   */
-  public static class PlaceholderFragment extends Fragment {
-
-    public PlaceholderFragment() {
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-        Bundle savedInstanceState) {
-      View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-      return rootView;
-    }
-  }
-
-  /**
    * DrawerItemClick listener
    */
   private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -93,9 +75,27 @@ public class MainActivity extends NavigationDrawerActivity {
   }
 
   private void onDrawerItemClick(int position) {
+    if (this.activePosition == position) {
+      this.closeDrawer();
+      return;
+    }
+    this.activePosition = position;
 
+    switch (position) {
+      case -1:
+        break;
+      case 0:
+        getFragmentManager().beginTransaction().replace(R.id.container, new MainFragment()).commit();
+        break;
+      case 1:
+        getFragmentManager().beginTransaction().replace(R.id.container, new TrashFragment()).commit();
+      default:
+        Toast.makeText(this, "Invalid fragment", Toast.LENGTH_SHORT);
+        break;
+    }
+
+    this.closeDrawer();
   }
-
 
   /**
    * Drawer List Adapter
@@ -104,7 +104,9 @@ public class MainActivity extends NavigationDrawerActivity {
   public class DrawerListAdapter extends BaseAdapter {
 
     Context context;
+
     String[] items;
+
     int[] images = {R.drawable.ic_action_add_to_queue, R.drawable.ic_action_discard, R.drawable.ic_action_help};
 
     public DrawerListAdapter(Context context) {
@@ -131,10 +133,11 @@ public class MainActivity extends NavigationDrawerActivity {
     public View getView(int position, View convertView, ViewGroup parent) {
       View view = convertView;
 
-      if(view == null){
+      if (view == null) {
         LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.navigation_drawer_item, parent, false);
       }
+
       ImageView image = (ImageView) view.findViewById(R.id.image);
       TextView title = (TextView) view.findViewById(R.id.title);
 
