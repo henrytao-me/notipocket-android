@@ -19,7 +19,6 @@ public class MainActivity extends NavigationDrawerActivity {
   public MainActivity() {
     this.activityLayoutId = R.layout.activity_main;
     this.drawerLayoutId = R.id.main_drawer_layout;
-    this.drawerListId = R.id.main_drawer_list;
     this.drawerIcon = R.drawable.ic_drawer;
     this.drawerOpenString = R.string.main_drawer_open;
     this.drawerCloseString = R.string.main_drawer_close;
@@ -34,7 +33,6 @@ public class MainActivity extends NavigationDrawerActivity {
           .commit();
     }
   }
-
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
